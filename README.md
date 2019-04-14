@@ -1,6 +1,6 @@
 # Asciify
 
-![PowerShell Gallery](https://img.shields.io/powershellgallery/v/Asciify.svg)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/v/Asciify.svg)](https://www.powershellgallery.com/packages/Asciify)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cc2d46b1198e4484909af81fe17b3283)](https://www.codacy.com/app/off-world/Asciify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=off-world/Asciify&amp;utm_campaign=Badge_Grade)
 
 Convert Images to ASCII Pictures
@@ -19,7 +19,7 @@ processed the image will be cropped in memory to fit the consoles width or heigh
 
 ## Installation
 
-Install from [PowerShell Gallery](https://www.powershellgallery.com/packages/Asciify/1.0)
+Install from [PowerShell Gallery](https://www.powershellgallery.com/packages/Asciify)
 
 ```Powershell
 Install-Module -Name Asciify
