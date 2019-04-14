@@ -5,10 +5,7 @@
 
 Convert Images to ASCII Pictures
 
-<p float="left">
-  <img src="https://i.imgur.com/E0psv5j.jpg" width="200" />
-  <img src="https://i.imgur.com/MjvEsYi.png" />
-</p>
+![preview](https://i.imgur.com/hVBnXGo.png)
 
 ## Description
 
