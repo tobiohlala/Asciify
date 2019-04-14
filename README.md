@@ -9,9 +9,7 @@ Convert Images to ASCII Pictures
 
 ## Description
 
-Convert any image to ASCII picture by representing each pixels grayscale value as an ASCII character.
-The higher the grayscale value the more space the corresponding ASCII character fills. Before being
-processed the image will be cropped in memory to fit the consoles width or height.
+Convert any image to ASCII picture by representing each pixels grayscale value as an ASCII character. The higher the grayscale value resp. the lighter the pixel the more space the corresponding ASCII character fills on the screen therefore reassembling the image well on dark console backgrounds with light font colors. On light console backgrounds with dark font colors use the `-Invert` switch to adjust. Before being processed the image will be resized in memory to make the resulting ASCII picture fit the consoles width later on. To fit the consoles height instead use the `-FitConsoleHeight` switch.
 
 ## Installation
 
