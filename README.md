@@ -1,11 +1,13 @@
 # Asciify
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cc2d46b1198e4484909af81fe17b3283)](https://www.codacy.com/app/off-world/Asciify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=off-world/Asciify&amp;utm_campaign=Badge_Grade)
+
 Convert Images to ASCII Pictures
 
 <p float="left">
   <img src="https://i.imgur.com/E0psv5j.jpg" width="200" />
-  <img src="https://i.imgur.com/cnRw6DO.png" width="230" /> 
-  <img src="https://i.imgur.com/eZXcEb4.png" width="235" />
+  <img src="https://i.imgur.com/eZXcEb4.png" width="205" />
+  <img src="https://i.imgur.com/cnRw6DO.png" width="213" /> 
 </p>
 
 ## Description
