@@ -7,7 +7,7 @@ Convert Images to ASCII Pictures
 
 <p float="left">
   <img src="https://i.imgur.com/E0psv5j.jpg" width="200" />
-  <img src="https://i.imgur.com/eZXcEb4.png" width="205" />
+  <img src="https://i.imgur.com/36GvKL1.png" width="205" />
   <img src="https://i.imgur.com/cnRw6DO.png" width="213" /> 
 </p>
 
