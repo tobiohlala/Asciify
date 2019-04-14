@@ -11,6 +11,8 @@ Convert Images to ASCII Pictures
 
 Convert any image to ASCII picture by representing each pixels grayscale value as an ASCII character. The higher the grayscale value resp. the lighter the pixel the more space the corresponding ASCII character fills on the screen therefore reassembling the image well on dark console backgrounds with light font colors. On light console backgrounds with dark font colors use the `-Invert` switch to adjust. Before being processed the image will be resized in memory to make the resulting ASCII picture fit the consoles width later on. To fit the consoles height instead use the `-FitConsoleHeight` switch.
 
+Furthermore, the Cmdlet supports three different resolutions regarding the resulting ASCII picture. These are `Low`, `Mid` and `High` and can be specified by the `-Resolution` parameter. On higher resolutions the resulting ASCII picture will be made up with more ASCII characters yielding a more fine-grained picture. Depending on the image a higher resolution sometimes may tend to look better especially when using small font sizes.
+
 ## Installation
 
 Install from [PowerShell Gallery](https://www.powershellgallery.com/packages/Asciify)
