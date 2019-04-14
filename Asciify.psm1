@@ -48,26 +48,25 @@ Add-Type -AssemblyName System.Drawing
     .PARAMETER FitConsoleHeight
     Whether the output ascii picture should fit the console height instead of width.
 
-    .PARAMETER AdjustBackgroundColor
-    Whether the output ascii picture should be printed out colored white on black. Use this on light
-    console backgrounds for better results.
+    .PARAMETER Invert
+    Whether the output ascii picture should be inverted. Use this on light console backgrounds
+    for better results.
 
     .OUTPUTS
     A string of ascii characters representing each pixels grayscale value from the original image. Each
-    pixel row is separated by a newline character. When the -AdjustBackgroundColor Parameter is specified
-    the result will be printed out using Write-Host.
+    pixel row is separated by a newline character.
 
     .COMPONENT
     GDI+
 
     .EXAMPLE
-    Convert-ImageToAscii C:\Users\Bobby\Pictures\bobby-fischer.jpg -AdjustBackgroundColor
+    Convert-ImageToAscii C:\Users\Bobby\Pictures\bobby-fischer.jpg
 
     .EXAMPLE
     Convert-ImageToAscii -Path C:\Users\Bobby\Pictures\bobby-fischer.jpg -Resolution Mid -FitConsoleHeight
 
     .EXAMPLE
-    i2a .\bobby-fischer.jpg
+    i2a .\bobby-fischer.jpg -Invert
 #>
 function Convert-ImageToAscii
 {
@@ -86,7 +85,7 @@ function Convert-ImageToAscii
         $FitConsoleHeight,
 
         [switch]
-        $AdjustBackgroundColor
+        $Invert
     )
 
     $img = [Image]::FromFile($Path)
@@ -123,26 +122,28 @@ function Convert-ImageToAscii
         'High' = " .,:;~+?txXCmo#%@"
     }
 
+    $symbols = $chars[$Resolution]
+
+    if ($Invert)
+    {
+        $symbols = $symbols.ToCharArray()
+        [array]::Reverse($symbols)
+        $symbols = -join($symbols)
+    }
+
     foreach ($y in 0..($bmp.Height-1))
     {
         foreach ($x in 0..($bmp.Width-1))
         {
             $p = $bmp.GetPixel($x, $y)
-            $symbol = "$($chars[$Resolution][[Math]::Floor((($p.R+$p.G+$p.B)/3)/(256/$chars[$Resolution].Length))])" * 2
+            $symbol = "$($symbols[[Math]::Floor((($p.R+$p.G+$p.B)/3)/(256/$symbols.Length))])" * 2
             $ascii += $symbol
         }
         
         $ascii += "`n"
     }
 
-    if ($AdjustBackgroundColor)
-    {
-        Write-Host $ascii -BackgroundColor Black -ForegroundColor White
-    }
-    else
-    {
-        $ascii    
-    }
+    $ascii
 
     $wrapMode.Dispose()
     $graphics.Dispose()
