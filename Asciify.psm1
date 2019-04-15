@@ -164,19 +164,20 @@ function Convert-ImageToAscii
         $symbols = -join($symbols)
     }
 
+    $ascii = New-Object System.Text.StringBuilder
+
     foreach ($y in 0..($bmp.Height-1))
     {
         foreach ($x in 0..($bmp.Width-1))
         {
             $p = $bmp.GetPixel($x, $y)
             $symbol = "$($symbols[[Math]::Floor((($p.R+$p.G+$p.B)/3)/(256/$symbols.Length))])" * 2
-            $ascii += $symbol
+            $ascii.Append($symbol) | Out-Null
         }
-        
-        $ascii += "`n"
+        $ascii.Append("`n") | Out-Null
     }
 
-    $ascii
+    $ascii.ToString()
 
     $wrapMode.Dispose()
     $graphics.Dispose()
