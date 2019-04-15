@@ -13,7 +13,7 @@ Convert any image to ASCII picture by representing each pixels grayscale value a
 ```PowerShell
 Convert-ImageToAscii .\bobby-fischer.jpg -Width 120 -Height 80 -Resolution Mid -Invert | Out-File .\bobby-fischer-ascii.txt
 ```
-Also, the `-Width` and `-Height` parameters have to be specified manually when running from PowerShell hosts not reporting its console dimensions like PowerShell ISE.
+Also, the `-Width` and `-Height` parameters have to be specified manually when running the Cmdlet in PowerShell hosts not reporting its console dimensions like PowerShell ISE.
 
 Furthermore, the Cmdlet supports three different resolutions regarding the resulting ASCII picture. These are `Low`, `Mid` and `High` and can be specified by the `-Resolution` parameter. On higher resolutions the resulting ASCII picture will be made up with more ASCII characters yielding a more fine-grained picture. Depending on the image a higher resolution sometimes may tend to look better especially when using smaller font sizes.
 
