@@ -150,7 +150,7 @@ function Convert-ImageToAscii
     $graphics.DrawImage($img, $rec, 0, 0, $img.Width, $img.Height, [GraphicsUnit]::Pixel, $wrapMode)
 
     $chars = @{
-        'Low'  = " .o#@"
+        'Low'  = " .+#@"
         'Mid'  = " .,:+*#%@"
         'High' = " .,:;~+?txXCmo#%@"
     }
