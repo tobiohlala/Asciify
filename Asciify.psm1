@@ -45,8 +45,15 @@ Add-Type -AssemblyName System.Drawing
     console window and the smaller the font size a higher resolution tends to look better when the image
     is also of high resolution.
 
+    .PARAMETER Width
+    Set the width of the output ascii picture manually.
+
+    .PARAMETER Height
+    Set the height of the output ascii picture manually.
+
     .PARAMETER FitConsoleHeight
-    Whether the output ascii picture should fit the console height instead of width.
+    Whether the output ascii picture should fit the console height instead of width. Only applicable if
+    width and height are not explicitly specified.
 
     .PARAMETER Invert
     Whether the output ascii picture should be inverted. Use this on light console backgrounds
@@ -66,7 +73,7 @@ Add-Type -AssemblyName System.Drawing
     Convert-ImageToAscii -Path C:\Users\Bobby\Pictures\bobby-fischer.jpg -Resolution Mid -FitConsoleHeight
 
     .EXAMPLE
-    i2a .\bobby-fischer.jpg -Invert
+    Convert-ImageToAscii -Path C:\Users\Bobby\Pictures\bobby-fischer.jpg -Width 120 -Height 80 -Invert
 #>
 function Convert-ImageToAscii
 {
@@ -81,6 +88,17 @@ function Convert-ImageToAscii
         [string]
         $Resolution='Low',
 
+        [Parameter(Mandatory=$true, ParameterSetName="SetDimensionsManually")]
+        [ValidateRange(1, [int]::MaxValue)]
+        [int]
+        $Width,
+        
+        [Parameter(Mandatory=$true, ParameterSetName="SetDimensionsManually")]
+        [ValidateRange(1, [int]::MaxValue)]
+        [int]
+        $Height,
+
+        [Parameter(ParameterSetName="SetDimensionsAutomatically")]
         [switch]
         $FitConsoleHeight,
 
@@ -90,15 +108,30 @@ function Convert-ImageToAscii
 
     $img = [Image]::FromFile($Path)
 
-    if (-not $FitConsoleHeight)
+    if ($PSCmdlet.ParameterSetName -eq 'SetDimensionsManually')
     {
-        [int]$w = $Host.UI.RawUI.WindowSize.Width/2 - 1
-        [int]$h = $Host.UI.RawUI.WindowSize.Width/2/($img.Width/$img.Height)
+        [int]$w = $Width/2
+        [int]$h = $Height
     }
     else
     {
-        [int]$w = $Host.UI.RawUI.WindowSize.Height*($img.Width/$img.Height)
-        [int]$h = $Host.UI.RawUI.WindowSize.Height - 4
+        if (-not $Host.UI.RawUI.WindowSize)
+        {
+            throw "Couldn't determine console width and height due to your current PowerShell host not reporting its dimensions. " +
+                  "Are you running this script from within PowerShell ISE? Try setting -Width and -Height manually or switch to " +
+                  "a conventional PowerShell console."
+        }
+
+        if (-not $FitConsoleHeight)
+        {
+            [int]$w = $Host.UI.RawUI.WindowSize.Width/2 - 1
+            [int]$h = $Host.UI.RawUI.WindowSize.Width/2/($img.Width/$img.Height)
+        }
+        else
+        {
+            [int]$w = $Host.UI.RawUI.WindowSize.Height*($img.Width/$img.Height)
+            [int]$h = $Host.UI.RawUI.WindowSize.Height - 4
+        }   
     }
 
     $bmp = New-Object Bitmap $w, $h
