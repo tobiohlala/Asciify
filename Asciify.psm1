@@ -106,7 +106,7 @@ function Convert-ImageToAscii
         $Invert
     )
 
-    $img = [Image]::FromFile($Path)
+    $img = [Image]::FromFile($(Resolve-Path -Path $Path))
 
     if ($PSCmdlet.ParameterSetName -eq 'SetDimensionsManually')
     {
