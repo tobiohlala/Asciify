@@ -172,9 +172,9 @@ function Convert-ImageToAscii
         {
             $p = $bmp.GetPixel($x, $y)
             $symbol = "$($symbols[[Math]::Floor((($p.R+$p.G+$p.B)/3)/(256/$symbols.Length))])" * 2
-            $ascii.Append($symbol) | Out-Null
+            [void]$ascii.Append($symbol)
         }
-        $ascii.Append("`n") | Out-Null
+        [void]$ascii.Append("`n")
     }
 
     $ascii.ToString()
