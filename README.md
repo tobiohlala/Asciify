@@ -11,7 +11,7 @@ Convert Images to ASCII Pictures
 
 Convert any image to ASCII picture by representing each pixels grayscale value as an ASCII character. The higher the grayscale value resp. the lighter the pixel the more space the corresponding ASCII character fills on the screen therefore reassembling the image well on dark console backgrounds with light font colors. On light console backgrounds with dark font colors use the `-Invert` switch to adjust. Before being processed the image will be resized in memory to make the resulting ASCII picture fit the console's width later on. To fit the console's height instead use the `-FitConsoleHeight` switch. Otherwise, if you don't want the resulting ASCII picture's dimensions determined by the script automatically at all you can specify a custom width and height using the `-Width` and `-Height` parameters. This can be useful when exporting ASCII pictures of custom sizes into textfiles, e.g:
 ```PowerShell
-Convert-ImageToAscii .\bobby-fischer.jpg -Width 120 -Height 80 -Resolution Mid -Invert | Out-File .\bobby-fischer-ascii.txt
+Convert-ImageToAscii .\bobby-fischer.jpg -Width 160 -Height 80 -Resolution Mid -Invert | Out-File .\bobby-fischer-ascii.txt
 ```
 Also, the `-Width` and `-Height` parameters have to be specified manually when running the Cmdlet in PowerShell hosts not reporting its console dimensions like PowerShell ISE.
 
