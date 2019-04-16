@@ -74,6 +74,7 @@ Add-Type -AssemblyName System.Drawing
 #>
 function Convert-ImageToAscii
 {
+    [Alias('i2a')]
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true, Position=0)]
@@ -180,5 +181,3 @@ function Convert-ImageToAscii
     $graphics.Dispose()
     $img.Dispose()
 }
-
-New-Alias -Name i2a -Value Convert-ImageToAscii
