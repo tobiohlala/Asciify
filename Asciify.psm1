@@ -31,16 +31,12 @@ Add-Type -AssemblyName System.Drawing
 
     .DESCRIPTION
     Convert any image to ascii picture by representing each pixels grayscale value as an ascii character.
-    The higher the grayscale value the more space the corresponding ascii character fills. Before being
-    processed the image will be cropped in memory to fit the consoles width or height.
 
     .PARAMETER Path
     The path to the image to process.
 
     .PARAMETER Resolution
-    The amount of different ascii characters the grayscale values will be assigned to. The bigger the
-    console window and the smaller the font size a higher resolution tends to look better when the image
-    is also of high resolution.
+    The amount of different ascii characters the grayscale values will be assigned to.
 
     .PARAMETER Width
     Set the width of the output ascii picture manually.
@@ -75,6 +71,9 @@ Add-Type -AssemblyName System.Drawing
 
     .EXAMPLE
     Convert-ImageToAscii -Path C:\Users\Bobby\Pictures\bobby-fischer.jpg -Width 120 -Height 80 -Invert
+
+    .EXAMPLE
+    Get-ChildItem C:\Users\Bobby\Pictures\*.jpg | Convert-ImageToAscii -FitConsoleHeight
 #>
 function Convert-ImageToAscii
 {
