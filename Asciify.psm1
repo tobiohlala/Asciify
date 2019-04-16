@@ -21,9 +21,6 @@
 # IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 # OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#requires -version 5
-
-using namespace System.Drawing
 
 Add-Type -AssemblyName System.Drawing
 
@@ -106,7 +103,7 @@ function Convert-ImageToAscii
         $Invert
     )
 
-    $img = [Image]::FromFile($(Resolve-Path -Path $Path))
+    $img = [Drawing.Image]::FromFile($(Resolve-Path -Path $Path))
 
     if ($PSCmdlet.ParameterSetName -eq 'SetDimensionsManually')
     {
@@ -134,20 +131,20 @@ function Convert-ImageToAscii
         }   
     }
 
-    $bmp = New-Object Bitmap $w, $h
+    $bmp = New-Object Drawing.Bitmap $w, $h
     $bmp.SetResolution($img.HorizontalResolution, $img.VerticalResolution)
 
-    $rec = New-Object Rectangle 0, 0, $w, $h
-    $wrapMode = New-Object Imaging.ImageAttributes
-    $wrapMode.SetWrapMode([Drawing2D.WrapMode]::TileFlipXY)
+    $rec = New-Object Drawing.Rectangle 0, 0, $w, $h
+    $wrapMode = New-Object Drawing.Imaging.ImageAttributes
+    $wrapMode.SetWrapMode([Drawing.Drawing2D.WrapMode]::TileFlipXY)
 
-    $graphics                    = [Graphics]::FromImage($bmp)
-    $graphics.CompositingMode    = [Drawing2D.CompositingMode]::SourceCopy
-    $graphics.CompositingQuality = [Drawing2D.CompositingQuality]::HighQuality
-    $graphics.InterpolationMode  = [Drawing2D.InterpolationMode]::HighQualityBicubic
-    $graphics.SmoothingMode      = [Drawing2D.SmoothingMode]::HighQuality
-    $graphics.PixelOffsetMode    = [Drawing2D.PixelOffsetMode]::HighQuality
-    $graphics.DrawImage($img, $rec, 0, 0, $img.Width, $img.Height, [GraphicsUnit]::Pixel, $wrapMode)
+    $graphics                    = [Drawing.Graphics]::FromImage($bmp)
+    $graphics.CompositingMode    = [Drawing.Drawing2D.CompositingMode]::SourceCopy
+    $graphics.CompositingQuality = [Drawing.Drawing2D.CompositingQuality]::HighQuality
+    $graphics.InterpolationMode  = [Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+    $graphics.SmoothingMode      = [Drawing.Drawing2D.SmoothingMode]::HighQuality
+    $graphics.PixelOffsetMode    = [Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+    $graphics.DrawImage($img, $rec, 0, 0, $img.Width, $img.Height, [Drawing.GraphicsUnit]::Pixel, $wrapMode)
 
     $chars = @{
         'Low'  = " .+#@"
