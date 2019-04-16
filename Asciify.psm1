@@ -146,11 +146,11 @@ function Convert-ImageToAscii
                 }
             }
 
-            $bmp = New-Object Drawing.Bitmap $w, $h
+            $bmp = [Drawing.Bitmap]::New($w, $h)
             $bmp.SetResolution($img.HorizontalResolution, $img.VerticalResolution)
 
-            $rec = New-Object Drawing.Rectangle 0, 0, $w, $h
-            $wrapMode = New-Object Drawing.Imaging.ImageAttributes
+            $rec = [Drawing.Rectangle]::New(0, 0, $w, $h)
+            $wrapMode = [Drawing.Imaging.ImageAttributes]::New()
             $wrapMode.SetWrapMode([Drawing.Drawing2D.WrapMode]::TileFlipXY)
 
             $graphics                    = [Drawing.Graphics]::FromImage($bmp)
@@ -161,7 +161,7 @@ function Convert-ImageToAscii
             $graphics.PixelOffsetMode    = [Drawing.Drawing2D.PixelOffsetMode]::HighQuality
             $graphics.DrawImage($img, $rec, 0, 0, $img.Width, $img.Height, [Drawing.GraphicsUnit]::Pixel, $wrapMode)
 
-            $ascii = New-Object System.Text.StringBuilder
+            $ascii = [System.Text.StringBuilder]::New()
 
             foreach ($y in 0..($bmp.Height-1))
             {
