@@ -127,67 +127,60 @@ function Convert-ImageToAscii
     }
 
     process {
-        $img = [Drawing.Image]::FromFile($(Resolve-Path -Path $Path))
+        try {
+            $img = [Drawing.Image]::FromFile($(Resolve-Path -Path $Path))
 
-        if ($PSCmdlet.ParameterSetName -eq 'SetDimensionsManually')
-        {
-            [int]$w = $Width/2
-            [int]$h = $Height
-        }
-        else
-        {
-            if (-not $Host.UI.RawUI.WindowSize)
-            {
-                throw "Couldn't determine console width and height due to your current PowerShell host not reporting its dimensions. " +
-                    "Are you running this script from within PowerShell ISE? Try setting -Width and -Height manually or switch to " +
-                    "a conventional PowerShell console."
+            [int]$w, [int]$h = switch ($PSCmdlet.ParameterSetName) {
+                SetDimensionsManually {
+                    ($Width / 2), $Height
+                }
+
+                SetDimensionsAutomatically {
+                    @(($Host.UI.RawUI.WindowSize.Height * ($img.Width / $img.Height))
+                    ($Host.UI.RawUI.WindowSize.Height - 4))
+                }
+
+                default {
+                    @(($Host.UI.RawUI.WindowSize.Width / 2 - 1)
+                    ($Host.UI.RawUI.WindowSize.Width / 2 / ($img.Width / $img.Height)))
+                }
             }
 
-            if (-not $FitConsoleHeight)
+            $bmp = New-Object Drawing.Bitmap $w, $h
+            $bmp.SetResolution($img.HorizontalResolution, $img.VerticalResolution)
+
+            $rec = New-Object Drawing.Rectangle 0, 0, $w, $h
+            $wrapMode = New-Object Drawing.Imaging.ImageAttributes
+            $wrapMode.SetWrapMode([Drawing.Drawing2D.WrapMode]::TileFlipXY)
+
+            $graphics                    = [Drawing.Graphics]::FromImage($bmp)
+            $graphics.CompositingMode    = [Drawing.Drawing2D.CompositingMode]::SourceCopy
+            $graphics.CompositingQuality = [Drawing.Drawing2D.CompositingQuality]::HighQuality
+            $graphics.InterpolationMode  = [Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+            $graphics.SmoothingMode      = [Drawing.Drawing2D.SmoothingMode]::HighQuality
+            $graphics.PixelOffsetMode    = [Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+            $graphics.DrawImage($img, $rec, 0, 0, $img.Width, $img.Height, [Drawing.GraphicsUnit]::Pixel, $wrapMode)
+
+            $ascii = New-Object System.Text.StringBuilder
+
+            foreach ($y in 0..($bmp.Height-1))
             {
-                [int]$w = $Host.UI.RawUI.WindowSize.Width/2 - 1
-                [int]$h = $Host.UI.RawUI.WindowSize.Width/2/($img.Width/$img.Height)
+                foreach ($x in 0..($bmp.Width-1))
+                {
+                    $p = $bmp.GetPixel($x, $y)
+                    $symbol = "$($symbols[[Math]::Floor((($p.R+$p.G+$p.B)/3)/(256/$symbols.Length))])" * 2
+                    [void]$ascii.Append($symbol)
+                }
+                [void]$ascii.Append("`n")
             }
-            else
-            {
-                [int]$w = $Host.UI.RawUI.WindowSize.Height*($img.Width/$img.Height)
-                [int]$h = $Host.UI.RawUI.WindowSize.Height - 4
-            }   
+
+            $ascii.ToString()
+
+        } finally {
+            $wrapMode.Dispose()
+            $graphics.Dispose()
+            $bmp.Dispose()
+            $img.Dispose()
         }
-
-        $bmp = New-Object Drawing.Bitmap $w, $h
-        $bmp.SetResolution($img.HorizontalResolution, $img.VerticalResolution)
-
-        $rec = New-Object Drawing.Rectangle 0, 0, $w, $h
-        $wrapMode = New-Object Drawing.Imaging.ImageAttributes
-        $wrapMode.SetWrapMode([Drawing.Drawing2D.WrapMode]::TileFlipXY)
-
-        $graphics                    = [Drawing.Graphics]::FromImage($bmp)
-        $graphics.CompositingMode    = [Drawing.Drawing2D.CompositingMode]::SourceCopy
-        $graphics.CompositingQuality = [Drawing.Drawing2D.CompositingQuality]::HighQuality
-        $graphics.InterpolationMode  = [Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-        $graphics.SmoothingMode      = [Drawing.Drawing2D.SmoothingMode]::HighQuality
-        $graphics.PixelOffsetMode    = [Drawing.Drawing2D.PixelOffsetMode]::HighQuality
-        $graphics.DrawImage($img, $rec, 0, 0, $img.Width, $img.Height, [Drawing.GraphicsUnit]::Pixel, $wrapMode)
-
-        $ascii = New-Object System.Text.StringBuilder
-
-        foreach ($y in 0..($bmp.Height-1))
-        {
-            foreach ($x in 0..($bmp.Width-1))
-            {
-                $p = $bmp.GetPixel($x, $y)
-                $symbol = "$($symbols[[Math]::Floor((($p.R+$p.G+$p.B)/3)/(256/$symbols.Length))])" * 2
-                [void]$ascii.Append($symbol)
-            }
-            [void]$ascii.Append("`n")
-        }
-
-        $ascii.ToString()
-
-        $wrapMode.Dispose()
-        $graphics.Dispose()
-        $bmp.Dispose()
-        $img.Dispose()
     }
 }
