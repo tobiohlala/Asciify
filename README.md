@@ -15,7 +15,7 @@ gci .\bobby-fischer.jpg | i2a -Width 160 -Height 80 -Resolution Mid -Invert > .\
 ```
 **Note:** `-Width` and `-Height` _must_ be specified manually when running the Cmdlet from PowerShell hosts not reporting its console dimensions like PowerShell ISE.
 
-Furthermore, the Cmdlet supports three different resolutions regarding the resulting ASCII picture. These are `Low`, `Mid` and `High` and can be specified by the `-Resolution` parameter. On higher resolutions the resulting ASCII picture will be made up with more ASCII characters yielding a more fine-grained picture. Depending on the image a higher resolution sometimes may tend to look better especially when using smaller font sizes.
+Furthermore, the Cmdlet supports three different resolutions regarding the resulting ASCII picture. These are `Low`, `Mid` and `High` and can be specified by the `-Resolution` parameter. On higher resolutions the resulting ASCII picture will be made up with more ASCII characters yielding a more fine-grained picture. Depending on the image a higher resolution sometimes may tend to look better especially when using smaller font sizes or bigger dimensions.
 
 ## Installation
 
