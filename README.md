@@ -24,6 +24,10 @@ Install from [PowerShell Gallery](https://www.powershellgallery.com/packages/Asc
 ```Powershell
 Install-Module -Name Asciify
 ```
+or
+```Shell
+git clone https://github.com/off-world/Asciify
+```
 
 ## Usage
 
