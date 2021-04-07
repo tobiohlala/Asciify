@@ -26,7 +26,7 @@ Install-Module -Name Asciify
 ```
 or
 ```Shell
-git clone https://github.com/off-world/Asciify
+git clone https://github.com/tobiohlala/Asciify
 ```
 
 ## Usage
